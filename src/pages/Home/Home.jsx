@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './Home.css'
 import hero_banner from '../../assets/hero_banner.jpg'
 import hero_title from '../../assets/hero_title.png'
@@ -7,7 +7,22 @@ import play_icon from '../../assets/play_icon.png'
 import Footer from '../../components/Footer/Footer'
 import info_icon from '../../assets/info_icon.png'
 import Navbar from '../../components/Navbar/Navbar'
+import { useNavigate } from 'react-router-dom'
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth } from '../../firebase'
 const Home = () => {
+  const navigate = useNavigate()
+  useEffect(()=>{
+    onAuthStateChanged(auth, async (user)=>{
+      if(user){
+        console.log("logged in")
+        navigate('/')
+      }else{
+        console.log("logged out")
+        navigate('/login')
+      }
+    })
+  },[])
   return (
     <div className='home'>
       <Navbar/>

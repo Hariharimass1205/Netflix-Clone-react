@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
-import {createUserWithEmailAndPassword, getAuth, signInWithCredential} from "firebase/auth";
-import { getFirestore } from "firebase/firestore/lite";
+import {createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut} from "firebase/auth";
 import{addDoc , collection , getFirestore} from "firebase/firestore"
+import { toast } from "react-toastify";
 const firebaseConfig = {
   apiKey: "AIzaSyCTdVDwMUhW3rJNorujJlb7AAby8ehD_PE",
   authDomain: "netflix-clone-a0fc2.firebaseapp.com",
@@ -22,19 +22,27 @@ const signup = async (name,email,password)=>{
       await addDoc(collection(db,"user"),{
         uid:user.uid,
         name,
-        authProvider:"local",
+        authProvider:"local", 
         email,
       })
    } catch (error) {
        console.log(error)
-       alert(error)
+       toast.error(error.code.split("/")[1].split("-").join(" "));
    }
 }
 
 const login = async (email,password)=>{
+      console.log("gjuieiei")
       try {
-        signInWith
+        await signInWithEmailAndPassword(auth, email, password)
       } catch (error) {
-        
+        console.log(error)
+        toast.error(error.code.split("/")[1].split("-").join(" "))
       }
 }
+
+const logout = ()=>{
+    signOut(auth);
+} 
+
+export{auth, db , login, signup , logout};
