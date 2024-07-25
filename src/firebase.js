@@ -25,6 +25,7 @@ const signup = async (name,email,password)=>{
         authProvider:"local", 
         email,
       })
+      //collection
    } catch (error) {
        console.log(error)
        toast.error(error.code.split("/")[1].split("-").join(" "));
